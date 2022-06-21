@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { WrapperApp, Btn, Ancor } from './App.styles';
+import { WrapperApp, Btn } from './App.styles';
 
 const App = () => {
   return (

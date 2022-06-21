@@ -81,3 +81,17 @@ export const SubstractButton = styled.button`
     border-radius: 0.5em;
   }
 `;
+
+export const InfoButton = styled.button`
+  width: 1.6em;
+  height: 1.6em;
+  background-color: gray;
+  border-radius: 50%;
+  border: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  margin-left: 0.2em;
+  cursor: pointer;
+`;

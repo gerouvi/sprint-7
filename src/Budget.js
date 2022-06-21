@@ -1,4 +1,4 @@
-import { useEffect, useReducer } from 'react';
+import { useEffect, useReducer, useState } from 'react';
 import {
   WrapperWebOptions,
   WrapperInput,
@@ -6,10 +6,17 @@ import {
   InputNumber,
   AddButton,
   SubstractButton,
+  InfoButton,
 } from './Budget.styles';
+import Modal from './Modal';
 
 function Budget() {
   const { budgetForm, dispatchBudgetForm } = useBudgetForm();
+
+  const [isModalOpen, setIsModalOpen] = useState({
+    pages: false,
+    langauges: false,
+  });
 
   if (!budgetForm) return null;
   return (
@@ -58,6 +65,27 @@ function Budget() {
                 })
               }
             />
+            <InfoButton
+              onClick={() =>
+                setIsModalOpen((prev) => ({
+                  ...prev,
+                  pages: true,
+                }))
+              }
+            >
+              i
+            </InfoButton>
+            <Modal
+              closeModal={() =>
+                setIsModalOpen((prev) => ({
+                  ...prev,
+                  pages: false,
+                }))
+              }
+              isOpen={isModalOpen.pages}
+            >
+              El número total de pàgines es: {budgetForm.pages.numberPages}
+            </Modal>
           </WrapperInput>
           <WrapperInput>
             <LabelInput>Número de llenguatges</LabelInput>
@@ -86,6 +114,28 @@ function Budget() {
                 })
               }
             />
+            <InfoButton
+              onClick={() =>
+                setIsModalOpen((prev) => ({
+                  ...prev,
+                  langauges: true,
+                }))
+              }
+            >
+              i
+            </InfoButton>
+            <Modal
+              closeModal={() =>
+                setIsModalOpen((prev) => ({
+                  ...prev,
+                  langauges: false,
+                }))
+              }
+              isOpen={isModalOpen.langauges}
+            >
+              El número total de llenguatges es:{' '}
+              {budgetForm.pages.numberLanguages}
+            </Modal>
           </WrapperInput>
         </WrapperWebOptions>
       )}
