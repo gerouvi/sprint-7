@@ -1,5 +1,12 @@
 import { useReducer } from 'react';
-import { WrapperWebOptions } from './App.styles';
+import {
+  WrapperWebOptions,
+  WrapperInput,
+  LabelInput,
+  InputNumber,
+  AddButton,
+  SubstractButton,
+} from './App.styles';
 
 function App() {
   const { budgetForm, dispatchBudgetForm } = useBudgetForm();
@@ -22,9 +29,17 @@ function App() {
       </div>
       {budgetForm.web.active && (
         <WrapperWebOptions>
-          <div>
-            <label>Número de pàgines</label>
-            <input
+          <WrapperInput>
+            <LabelInput>Número de pàgines</LabelInput>
+            <AddButton
+              onClick={() =>
+                dispatchBudgetForm({
+                  type: 'number_pages_changed',
+                  value: budgetForm.pages.numberPages + 1,
+                })
+              }
+            />
+            <InputNumber
               value={budgetForm.pages.numberPages}
               onChange={(e) =>
                 dispatchBudgetForm({
@@ -32,11 +47,27 @@ function App() {
                   value: e.target.value,
                 })
               }
-            ></input>
-          </div>
-          <div>
-            <label>Número de llenguatges</label>
-            <input
+            ></InputNumber>
+            <SubstractButton
+              onClick={() =>
+                dispatchBudgetForm({
+                  type: 'number_pages_changed',
+                  value: budgetForm.pages.numberPages - 1,
+                })
+              }
+            />
+          </WrapperInput>
+          <WrapperInput>
+            <LabelInput>Número de llenguatges</LabelInput>
+            <AddButton
+              onClick={() =>
+                dispatchBudgetForm({
+                  type: 'number_languages_changed',
+                  value: budgetForm.pages.numberLanguages + 1,
+                })
+              }
+            />
+            <InputNumber
               value={budgetForm.pages.numberLanguages}
               onChange={(e) =>
                 dispatchBudgetForm({
@@ -44,8 +75,16 @@ function App() {
                   value: e.target.value,
                 })
               }
-            ></input>
-          </div>
+            ></InputNumber>
+            <SubstractButton
+              onClick={() =>
+                dispatchBudgetForm({
+                  type: 'number_languages_changed',
+                  value: budgetForm.pages.numberLanguages - 1,
+                })
+              }
+            />
+          </WrapperInput>
         </WrapperWebOptions>
       )}
       <div>
@@ -152,7 +191,6 @@ const budgetFormReducer = (state, action) => {
     }
 
     case 'number_languages_changed': {
-      console.log(action.value);
       if (action.value < 0 || isNaN(action.value)) return { ...state };
       return {
         ...state,
