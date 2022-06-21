@@ -1,4 +1,5 @@
 import { useReducer } from 'react';
+import { WrapperWebOptions } from './App.styles';
 
 function App() {
   const { budgetForm, dispatchBudgetForm } = useBudgetForm();
@@ -19,6 +20,34 @@ function App() {
         />
         <label htmlFor="web">Una pàgina web (500e)</label>
       </div>
+      {budgetForm.web.active && (
+        <WrapperWebOptions>
+          <div>
+            <label>Número de pàgines</label>
+            <input
+              value={budgetForm.pages.numberPages}
+              onChange={(e) =>
+                dispatchBudgetForm({
+                  type: 'number_pages_changed',
+                  value: e.target.value,
+                })
+              }
+            ></input>
+          </div>
+          <div>
+            <label>Número de llenguatges</label>
+            <input
+              value={budgetForm.pages.numberLanguages}
+              onChange={(e) =>
+                dispatchBudgetForm({
+                  type: 'number_languages_changed',
+                  value: e.target.value,
+                })
+              }
+            ></input>
+          </div>
+        </WrapperWebOptions>
+      )}
       <div>
         <input
           type="checkbox"
@@ -67,7 +96,11 @@ const budgetFormReducer = (state, action) => {
             numberPages: 0,
             numberLanguages: 0,
           },
-          totalPrice: state.totalPrice - state.web.price,
+          totalPrice:
+            state.totalPrice -
+            state.web.price -
+            state.pages.numberPages * 30 -
+            state.pages.numberLanguages * 30,
         };
       }
       return {
@@ -113,11 +146,13 @@ const budgetFormReducer = (state, action) => {
           numberPages: action.value,
           numberLanguages: state.pages.numberLanguages,
         },
-        totalPrice: state.totalPrice + state.pages.numberPages * 30,
+        totalPrice:
+          state.totalPrice - state.pages.numberPages * 30 + action.value * 30,
       };
     }
 
     case 'number_languages_changed': {
+      console.log(action.value);
       if (action.value < 0 || isNaN(action.value)) return { ...state };
       return {
         ...state,
@@ -125,7 +160,10 @@ const budgetFormReducer = (state, action) => {
           numberPages: state.pages.numberPages,
           numberLanguages: action.value,
         },
-        totalPrice: state.totalPrice + state.pages.numberLanguages * 30,
+        totalPrice:
+          state.totalPrice -
+          state.pages.numberLanguages * 30 +
+          action.value * 30,
       };
     }
 
