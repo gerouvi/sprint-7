@@ -1,4 +1,4 @@
-import { useReducer } from 'react';
+import { useEffect, useReducer } from 'react';
 import {
   WrapperWebOptions,
   WrapperInput,
@@ -10,6 +10,8 @@ import {
 
 function App() {
   const { budgetForm, dispatchBudgetForm } = useBudgetForm();
+
+  if (!budgetForm) return null;
   return (
     <>
       <p>Que vols fer?</p>
@@ -205,6 +207,11 @@ const budgetFormReducer = (state, action) => {
       };
     }
 
+    case 'all':
+      return {
+        ...action.value,
+      };
+
     default:
       throw new Error('Error type not recognized');
   }
@@ -230,10 +237,22 @@ const INITIAL_BUDGET_FORM_VALUES = {
   totalPrice: 0,
 };
 const useBudgetForm = () => {
-  const [budgetForm, dispatchBudgetForm] = useReducer(
-    budgetFormReducer,
-    INITIAL_BUDGET_FORM_VALUES
-  );
+  const [budgetForm, dispatchBudgetForm] = useReducer(budgetFormReducer, null);
+
+  useEffect(() => {
+    if (budgetForm)
+      localStorage.setItem('budgetFormValues', JSON.stringify(budgetForm));
+  }, [budgetForm]);
+
+  useEffect(() => {
+    const budgetFormValues = JSON.parse(
+      localStorage.getItem('budgetFormValues')
+    );
+    if (!budgetFormValues)
+      dispatchBudgetForm({ type: 'all', value: INITIAL_BUDGET_FORM_VALUES });
+    if (budgetFormValues)
+      dispatchBudgetForm({ type: 'all', value: { ...budgetFormValues } });
+  }, []);
 
   return {
     budgetForm,
