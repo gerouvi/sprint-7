@@ -23,10 +23,12 @@ const BudgetListRow = ({
       <p>Dia del pressupost: {new Date(date).toLocaleDateString()}</p>
       <Table>
         <thead>
-          <Th>Servei</Th>
-          <Th>Quantitat</Th>
-          <Th>Preu</Th>
-          <Th>Total</Th>
+          <tr>
+            <Th>Servei</Th>
+            <Th>Quantitat</Th>
+            <Th>Preu</Th>
+            <Th>Total</Th>
+          </tr>
         </thead>
         <tbody>
           {web.active && (
@@ -71,8 +73,10 @@ const BudgetListRow = ({
           )}
         </tbody>
         <tfoot>
-          <Td> Preu total</Td>
-          <TdSpan3 colSpan="3">{totalPrice}&#8364;</TdSpan3>
+          <tr>
+            <Td> Preu total</Td>
+            <TdSpan3 colSpan="3">{totalPrice}&#8364;</TdSpan3>
+          </tr>
         </tfoot>
       </Table>
     </WrapperBudgetListRow>

@@ -21,7 +21,7 @@ export const Td = styled.td`
 `;
 
 export const TdSpan3 = styled.td`
-  padding: 0.3em;
+  padding: 0.3em 1em;
   text-align: right;
   font-weight: bold;
 `;
