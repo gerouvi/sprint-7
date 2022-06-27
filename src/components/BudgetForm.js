@@ -25,8 +25,6 @@ const BudgetForm = ({ setAllBudgets }) => {
 
   if (!budgetForm) return null;
 
-  console.log(budgetForm);
-
   const isFormValid =
     budgetForm.budgetName &&
     budgetForm.budgetCustomerName &&
