@@ -18,7 +18,7 @@ const BudgetListFilters = ({ filters, setSortBy, setPattern }) => {
           color={filters.sortBy !== 1 ? 'black' : 'gray'}
           onClick={() => setSortBy(1)}
         >
-          Alfabeticàment
+          Alfabeticament
         </Button>
         <Button
           color={filters.sortBy !== 2 ? 'black' : 'gray'}

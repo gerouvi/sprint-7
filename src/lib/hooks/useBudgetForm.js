@@ -1,4 +1,5 @@
 import { useEffect, useReducer } from 'react';
+import { useSearchParams } from 'react-router-dom';
 
 const budgetFormReducer = (state, action) => {
   switch (action.type) {
@@ -107,37 +108,47 @@ const budgetFormReducer = (state, action) => {
       };
 
     case 'reset':
-      return { ...INITIAL_BUDGET_FORM_VALUES };
+      return { ...getInitialFormValues(new URLSearchParams()) };
     default:
       throw new Error('Error type not recognized');
   }
 };
 
-const INITIAL_BUDGET_FORM_VALUES = {
-  budgetName: '',
-  budgetCustomerName: '',
-  web: {
-    active: false,
-    price: 500,
-  },
-  seo: {
-    active: false,
-    price: 300,
-  },
-  googleAds: {
-    active: false,
-    price: 200,
-  },
-  pages: {
-    numberPages: 0,
-    numberLanguages: 0,
-  },
-  date: '',
-  totalPrice: 0,
+const getInitialFormValues = (searchParams) => {
+  let totalPrice = 0;
+  if (searchParams.get('web') === 'true') totalPrice += 500;
+  if (searchParams.get('seo') === 'true') totalPrice += 300;
+  if (searchParams.get('googleAds') === 'true') totalPrice += 200;
+  totalPrice += (Number(searchParams.get('pages')) || 0) * 30;
+  totalPrice += (Number(searchParams.get('languages')) || 0) * 30;
+
+  return {
+    budgetName: '',
+    budgetCustomerName: '',
+    web: {
+      active: searchParams.get('web') === 'true',
+      price: 500,
+    },
+    seo: {
+      active: searchParams.get('seo') === 'true',
+      price: 300,
+    },
+    googleAds: {
+      active: searchParams.get('googleAds') === 'true',
+      price: 200,
+    },
+    pages: {
+      numberPages: Number(searchParams.get('pages')) || 0,
+      numberLanguages: Number(searchParams.get('languages')) || 0,
+    },
+    date: '',
+    totalPrice,
+  };
 };
 
 const useBudgetForm = () => {
   const [budgetForm, dispatchBudgetForm] = useReducer(budgetFormReducer, null);
+  const [searchParams] = useSearchParams();
 
   useEffect(() => {
     if (budgetForm)
@@ -148,8 +159,13 @@ const useBudgetForm = () => {
     const budgetFormValues = JSON.parse(
       localStorage.getItem('budgetFormValues')
     );
-    if (!budgetFormValues)
-      dispatchBudgetForm({ type: 'all', value: INITIAL_BUDGET_FORM_VALUES });
+    if (!budgetFormValues || Array.from(searchParams.keys()).length > 0) {
+      dispatchBudgetForm({
+        type: 'all',
+        value: getInitialFormValues(searchParams),
+      });
+      return;
+    }
     if (budgetFormValues)
       dispatchBudgetForm({ type: 'all', value: { ...budgetFormValues } });
   }, []);

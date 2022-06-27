@@ -12,7 +12,7 @@ const useAllBudgets = () => {
     const allBudgetsFromLocalStorage = JSON.parse(
       localStorage.getItem('allBudgets')
     );
-    console.log(allBudgetsFromLocalStorage);
+
     setAllBudgets(allBudgetsFromLocalStorage);
   }, []);
 

@@ -1,5 +1,4 @@
 import { useState } from 'react';
-
 import Modal from './Modal';
 import {
   WrapperWebOptions,
@@ -13,15 +12,21 @@ import {
   Btn,
   Warning,
 } from './BudgetForm.styles';
-import useBudgetForm from '../lib/hooks/useBudgetForm';
+import useCustomerSearchParams from '../lib/hooks/useCustomerSearchParams';
 
-const BudgetForm = ({ setAllBudgets }) => {
-  const { budgetForm, dispatchBudgetForm } = useBudgetForm();
-
+const BudgetForm = ({
+  budgetForm,
+  dispatchBudgetForm,
+  setAllBudgets,
+  searchParamsObj,
+  setSearchParams,
+}) => {
   const [isModalOpen, setIsModalOpen] = useState({
     pages: false,
     langauges: false,
   });
+
+  useCustomerSearchParams(budgetForm);
 
   if (!budgetForm) return null;
 
@@ -181,12 +186,21 @@ const BudgetForm = ({ setAllBudgets }) => {
           type="checkbox"
           id="seo"
           checked={budgetForm.seo.active}
-          onChange={() =>
+          onChange={() => {
             dispatchBudgetForm({
               type: 'seo_changed',
               value: !budgetForm.seo.active,
-            })
-          }
+            });
+            if (!budgetForm.seo.active) {
+              setSearchParams({
+                ...searchParamsObj,
+                seo: true,
+              });
+              return;
+            }
+            delete searchParamsObj.seo;
+            setSearchParams(searchParamsObj);
+          }}
         />
 
         <label htmlFor="seo">Una consultoria seo (300e)</label>
@@ -196,12 +210,22 @@ const BudgetForm = ({ setAllBudgets }) => {
           type="checkbox"
           id="googleAds"
           checked={budgetForm.googleAds.active}
-          onChange={() =>
+          onChange={() => {
             dispatchBudgetForm({
               type: 'google_ads_changed',
               value: !budgetForm.googleAds.active,
-            })
-          }
+            });
+
+            if (!budgetForm.googleAds.active) {
+              setSearchParams({
+                ...searchParamsObj,
+                googleAds: true,
+              });
+              return;
+            }
+            delete searchParamsObj.googleAds;
+            setSearchParams(searchParamsObj);
+          }}
         />
         <label htmlFor="googleAds">Una campanya de google ads (200e)</label>
       </div>
