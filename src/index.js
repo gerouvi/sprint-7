@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Budget from './components/Budget';
 import App from './App';
-import Budget from './Budget';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

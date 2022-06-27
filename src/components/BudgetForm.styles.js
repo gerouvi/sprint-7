@@ -95,3 +95,34 @@ export const InfoButton = styled.button`
   margin-left: 0.2em;
   cursor: pointer;
 `;
+
+export const PersonalData = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.5em;
+  margin-bottom: 1em;
+`;
+
+export const Btn = styled.button`
+  border: none;
+  background-color: white;
+  padding: 0.8em 1.6em;
+  border-radius: 3em;
+  box-shadow: 0em 0em 0.3em 0em black;
+  cursor: pointer;
+
+  &:active {
+    transform: scale(0.7);
+  }
+
+  &:disabled {
+    box-shadow: none;
+    border: 1px solid lightgray;
+    transform: scale(1);
+    cursor: default;
+  }
+`;
+
+export const Warning = styled.div`
+  color: red;
+`;

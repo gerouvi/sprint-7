@@ -1,6 +1,5 @@
 import { createPortal } from 'react-dom';
-import { Overlay, ModalWrapper } from './Modal.styles';
-
+import { ModalWrapper, Overlay } from './Modal.styles';
 const Modal = ({ isOpen, closeModal, children }) => {
   if (!isOpen) return null;
   return createPortal(
