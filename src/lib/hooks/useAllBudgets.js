@@ -13,7 +13,7 @@ const useAllBudgets = () => {
       localStorage.getItem('allBudgets')
     );
 
-    setAllBudgets(allBudgetsFromLocalStorage);
+    if (allBudgetsFromLocalStorage) setAllBudgets(allBudgetsFromLocalStorage);
   }, []);
 
   return {

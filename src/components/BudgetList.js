@@ -4,6 +4,7 @@ import BudgetListFilters from './BudgetListFilters';
 import BudgetListRow from './BudgetListRow';
 
 const BudgetList = ({ allBudgets }) => {
+  console.log(allBudgets);
   const [filters, setFilters] = useState({
     sortBy: 0,
     pattern: '',
@@ -22,6 +23,7 @@ const BudgetList = ({ allBudgets }) => {
       pattern: newPattern,
     }));
   };
+
   const budgetsFiltereds = filterBudgets(
     allBudgets,
     filters.pattern,

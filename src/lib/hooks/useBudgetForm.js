@@ -116,6 +116,7 @@ const budgetFormReducer = (state, action) => {
 
 const getInitialFormValues = (searchParams) => {
   let totalPrice = 0;
+
   if (searchParams.get('web') === 'true') totalPrice += 500;
   if (searchParams.get('seo') === 'true') totalPrice += 300;
   if (searchParams.get('googleAds') === 'true') totalPrice += 200;
@@ -123,8 +124,8 @@ const getInitialFormValues = (searchParams) => {
   totalPrice += (Number(searchParams.get('languages')) || 0) * 30;
 
   return {
-    budgetName: '',
-    budgetCustomerName: '',
+    budgetName: searchParams.get('budgetName') || '',
+    budgetCustomerName: searchParams.get('customerName') || '',
     web: {
       active: searchParams.get('web') === 'true',
       price: 500,
